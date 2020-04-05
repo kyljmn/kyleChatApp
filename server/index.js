@@ -68,8 +68,8 @@ io.on('connection', (socket) => {
         socket.emit("error", error);
       }
       else if (!user[0]) {
-        socket.emit("error", {message: "User doesn't exist"});
-      } 
+        socket.emit("nothing", null);
+      }
       else {
         let results = {username: user[0].username, id: user[0]._id}
         socket.emit("results", results);
