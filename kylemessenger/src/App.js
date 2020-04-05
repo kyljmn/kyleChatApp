@@ -47,14 +47,7 @@ const App = () => {
         setResults(results);
     })
   });
-  //Get chat history upon joining room
-  // useEffect(() => {
-  //   socket.on('joined', (room) => {
-  //     setCurrentRoom(room);
-  //     setMessages(room.messages);
-  //     console.log(room);
-  //   })
-  // }, [currentRoom])
+
   //Get room list
   useEffect(() => {
     socket.on('roomlist', (rooms) => {setRooms(rooms)});
@@ -71,15 +64,16 @@ const App = () => {
       setCurrentRoom(roomx);
       setMessages(roomx.messages);
     })
-  })
+  });
   
   const addFriend = (event) => {
     event.preventDefault();
     axios.post('http://localhost:5000/friends/add/' + results.id, user)
-    .then((res) => {setResults(''); setSearch(''); socket.emit('login', user);})
+    .then(() => {
+      setResults(''); 
+      setSearch(''); 
+      socket.emit('login', user);})
     .catch((error) => {console.log(error)});
-    setSearch('');
-    setResults('');
   }
 
   const login = (event) => {
@@ -88,7 +82,7 @@ const App = () => {
       username: loginName,
       password: loginPassword
     };
-    axios.post('http://localhost:5000/login', (user))
+    axios.post('http://localhost:5000/login', user)
       .then((res) => { setUser(res.data); setLoggedin(true); setLoginName(''); setLoginPassword(''); setError(''); socket.emit('login', user);})
       .catch((error) => {setError(error.message)});
   }
@@ -121,14 +115,13 @@ const App = () => {
     let message = {
       sender: {
         id: user._id,
-        user: user.username
+        username: user.username
       },
       body: messageinput,
       roomid: currentRoom._id
     };
-    socket.emit('sendMessage', message , (message) => {
-      setMessages([...messages, message]);
-    });
+    socket.emit('sendMessage', message);
+    setMessageinput('');
   }
 
   return (
@@ -158,14 +151,15 @@ const App = () => {
       />
       <MessagesBox 
         currentRoom={currentRoom}
-        message={messages}
+        messages={messages}
         loggedin={loggedin}
       />
-      <MessageInput 
+      <MessageInput
         messageinput={messageinput}
         setMessageinput={setMessageinput}
         sendMessage={sendMessage}
         currentRoom={currentRoom}
+        user={user}
         loggedin={loggedin}
       />
     </div>

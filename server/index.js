@@ -83,12 +83,16 @@ io.on('connection', (socket) => {
         socket.emit("error", error);
       }
       let newMessage = new Message({
-        sender: message.sender,
+        sender: {
+          id: message.sender.id,
+          username: message.sender.username
+        },
         body: message.body
       });
       newMessage.save();
       room.messages.push(newMessage);
-      socket.to(message.roomid).emit('messagereceived', newMessage);
+      room.save();
+      io.in(message.roomid).emit('messagereceived', newMessage);
     });
   });
 });

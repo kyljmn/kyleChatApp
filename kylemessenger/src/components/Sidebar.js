@@ -1,8 +1,9 @@
 import React from 'react';
 import RoomList from './Roomlist';
+import SearchResult from './SearchResult';
 
 const Sidebar = ({search, setSearch, searchFor, addFriend, results, rooms, user, loggedin, joinRoom, setCurrentRoom, currentRoom}) => {
-
+    
     return (
         <div>
             <div>
@@ -14,11 +15,7 @@ const Sidebar = ({search, setSearch, searchFor, addFriend, results, rooms, user,
                     onKeyPress={event => event.key === 'Enter' ? searchFor(event) : null}
                 />
             </div>
-            <div>
-                <form>
-                    <button onClick={(event) => addFriend(event)}>{results.username}, {results.id}</button>
-                </form>
-            </div>
+            <SearchResult addFriend={addFriend} results={results} />
             <RoomList rooms={rooms} user={user} loggedin={loggedin} joinRoom={joinRoom} setCurrentRoom={setCurrentRoom} currentRoom={currentRoom}/>
         </div>
         

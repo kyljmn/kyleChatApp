@@ -6,7 +6,6 @@ const User = require('../models/user');
 const Room = require('../models/room');
 
 router.post('/add/:id', middleware.authenticatedOnly, (req, res) => {
-    console.log("Hit add " + req.params.id);
     User.findById(req.params.id).lean().exec((err, user) => {
         if (err) {
             res.json({message: err});
@@ -15,7 +14,7 @@ router.post('/add/:id', middleware.authenticatedOnly, (req, res) => {
                 members: [{id: req.body._id, username: req.body.username}, {id: user._id, username: user.username}]
             });
             newRoom.save();
-            console.log("added");
+            res.json({message: "success"});
         }
     });
 })

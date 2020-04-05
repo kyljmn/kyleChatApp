@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MessageItem = (message) => {
+const MessageItem = ({message}) => {
 return (
     <div>
         <h4>{message.sender.username}</h4>

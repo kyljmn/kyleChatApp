@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MessageInput = (messageinput, setMessageinput, sendMessage, currentRoom, loggedin) => {
+const MessageInput = ({messageinput, setMessageinput, sendMessage, currentRoom, loggedin, user}) => {
     if (currentRoom && loggedin) {
         return (
             <div>
@@ -10,7 +10,7 @@ const MessageInput = (messageinput, setMessageinput, sendMessage, currentRoom, l
                     onChange={(event) => setMessageinput(event.target.value)}
                     onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
                 />
-                <button onClick={(event) => sendMessage(event)}>Send</button>
+                <button onClick={(event, user) => {console.log(user); sendMessage(event, user)}}>Send</button>
             </div>
         )
     } 

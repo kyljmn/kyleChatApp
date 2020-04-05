@@ -9,12 +9,16 @@ const roomSchema = new mongoose.Schema({
         },
         username: String
     }],
-    messages: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Message"
-        }
-    ]
+    messages: [{
+        sender: {
+            id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Message"
+            },
+            username: String
+        },
+        body: String   
+    }]
 });
 
 module.exports = mongoose.model('Room', roomSchema);
