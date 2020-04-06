@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import MessagesBox from './components/MessagesBox';
 import MessageInput from './components/MessageInput';
+import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 let socket;
 
@@ -101,7 +103,7 @@ const App = () => {
   const logout = (event) => {
     event.preventDefault();
     axios.get('http://localhost:5000/logout')
-      .then((res) => {setRooms([]); setLoggedin(false); setUser(); setLoginName(); setLoginPassword(); setError('');})
+      .then((res) => {setRooms([]); setLoggedin(false); setUser(); setLoginName(); setLoginPassword(); setCurrentRoom(); setMessages([]); setError('');})
       .catch((error) => { setError(error.message)});
   }
 
@@ -125,7 +127,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="fixed-height">
       <Navbar setLoginName={setLoginName} 
         setLoginPassword={setLoginPassword} 
         loginName={loginName} 
@@ -136,33 +138,45 @@ const App = () => {
         logout={logout}
         signup={signup}
       />
-      <Sidebar
-        search={search}
-        setSearch={setSearch}
-        searchFor={searchFor}
-        addFriend={addFriend}
-        results={results}
-        rooms={rooms}
-        user={user}
-        loggedin={loggedin}
-        joinRoom={joinRoom}
-        setCurrentRoom={setCurrentRoom}
-        currentRoom={currentRoom}
-      />
-      <MessagesBox 
-        currentRoom={currentRoom}
-        messages={messages}
-        loggedin={loggedin}
-      />
-      <MessageInput
-        messageinput={messageinput}
-        setMessageinput={setMessageinput}
-        sendMessage={sendMessage}
-        currentRoom={currentRoom}
-        user={user}
-        loggedin={loggedin}
-      />
+      <div className="container-fluid">
+        <div className="row">
+        <div className="col-3">
+          <Sidebar
+            search={search}
+            setSearch={setSearch}
+            searchFor={searchFor}
+            addFriend={addFriend}
+            results={results}
+            rooms={rooms}
+            user={user}
+            loggedin={loggedin}
+            joinRoom={joinRoom}
+            setCurrentRoom={setCurrentRoom}
+            currentRoom={currentRoom}
+          />
+        </div>
+          <div className="col-9">
+            <div className="container-fluid h-100 mh-100">
+              <MessagesBox 
+                currentRoom={currentRoom}
+                messages={messages}
+                loggedin={loggedin}
+                user={user}
+              />
+              <MessageInput
+                messageinput={messageinput}
+                setMessageinput={setMessageinput}
+                sendMessage={sendMessage}
+                currentRoom={currentRoom}
+                user={user}
+                loggedin={loggedin}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
 
 
   );

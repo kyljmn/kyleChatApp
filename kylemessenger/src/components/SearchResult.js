@@ -6,11 +6,10 @@ const SearchResult = ({addFriend, results}) => {
     }
     else {
         return (
-            <div>
-                <p>{results.username}</p>
-                <button onClick={(event) => addFriend(event)}>+</button>
+            <div className="input-group mb-1 mx-0 w-100">
+                <button className="btn btn-success btn-block" onClick={(event) => addFriend(event)}>Add {results.username}</button>
             </div>
-        )
+        );
     }
 }
 
